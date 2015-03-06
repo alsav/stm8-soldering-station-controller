@@ -1,0 +1,59 @@
+CC=sdcc
+CFLAGS=-mstm8
+CFLAGS+=-I/usr/local/share/sdcc/include
+STM8LIBDIR=../stm8_lib
+STM8LIBINC=$(STM8LIBDIR)/inc
+DEFINES=STM8S003
+SRC=main
+OUT_DIR=build/
+
+SRCS= main uart
+
+#OBJS = $(SRCS)
+OBJS = $(SRCS:.c=.ihx)
+
+
+all: prepare $(IHX) $(HEX)
+
+prepare:
+	mkdir -p $(OUT_DIR)
+
+$(IHX): $(OBJS)
+	$(CC) $(CFLAGS) -I$(STM8LIBINC) -D $(DEFINES) -L $(STM8LIBDIR) -l $(STDLIBNAME) -o $(OUT_DIR) $(SRC).c
+
+
+
+	$(CC) $(LDFLAGS) -o $@.elf  $(OBJS) -lm
+#	$(CC) $(LDFLAGS) -o $@.elf  $(OBJS) -lm  -L $(MODBUS_LIB) -lmodbus
+	$(OBJCOPY) -O binary -R .eeprom -R .nwram  $@.elf $@.bin
+	$(OBJCOPY) -O ihex -R .eeprom -R .nwram  $@.elf $@.hex
+	$(OBJDUMP) -S $@.elf > $@.lst
+	$(SIZE) -B $@.elf
+
+%.ihx: %.c
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+
+
+STDLIBNAME=libstm8s003.a
+
+all: compile
+
+compile:
+	mkdir -p $(OUT_DIR)
+	$(CC) $(CFLAGS) -I$(STM8LIBINC) -D $(DEFINES) -L $(STM8LIBDIR) -l $(STDLIBNAME) -o $(OUT_DIR) $(SRC).c
+	packihx $(OUT_DIR)/$(SRC).ihx > $(OUT_DIR)/$(SRC).hex
+
+prepare:
+	packihx $(OUT_DIR)/$(SRC).ihx > $(OUT_DIR)/$(SRC).hex
+
+clean:
+	rm -Rrf $(OUT_DIR)
+
+erase:
+	vsprog -cstm8s103f3 -ms -oe -V"tvcc.set 3300"
+	vsprog -V"tvcc.set 0" -V"tvcc.set 3300"
+
+flash: erase
+	vsprog -cstm8s103f3 -ms -owf -I $(OUT_DIR)/$(SRC).hex -V"tvcc.set 3300"
+	vsprog -V"tvcc.set 0" -V"tvcc.set 3300"

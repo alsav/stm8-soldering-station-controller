@@ -1,0 +1,108 @@
+Cmp-Mod V01 Created by CvPcb (2013-jul-07)-stable date = Сб. 28 февр. 2015 18:52:20
+
+BeginCmp
+TimeStamp = /54F1CF5B;
+Reference = C1;
+ValeurCmp = C;
+IdModule  = SM0805;
+EndCmp
+
+BeginCmp
+TimeStamp = /54F1CF99;
+Reference = C2;
+ValeurCmp = C;
+IdModule  = SM0603_Capa;
+EndCmp
+
+BeginCmp
+TimeStamp = /54F1BFDA;
+Reference = IC1;
+ValeurCmp = STM8S003F3P;
+IdModule  = tssop-20;
+EndCmp
+
+BeginCmp
+TimeStamp = /54F1C62E;
+Reference = P1;
+ValeurCmp = SENSE;
+IdModule  = PIN_ARRAY_1;
+EndCmp
+
+BeginCmp
+TimeStamp = /54F1C69B;
+Reference = P2;
+ValeurCmp = HEAT;
+IdModule  = PIN_ARRAY_1;
+EndCmp
+
+BeginCmp
+TimeStamp = /54F1C51D;
+Reference = P3;
+ValeurCmp = ZERO;
+IdModule  = PIN_ARRAY_1;
+EndCmp
+
+BeginCmp
+TimeStamp = /54F1CF79;
+Reference = P4;
+ValeurCmp = NRST;
+IdModule  = PIN_ARRAY_1;
+EndCmp
+
+BeginCmp
+TimeStamp = /54F1C3AD;
+Reference = P5;
+ValeurCmp = SWIM;
+IdModule  = PIN_ARRAY_1;
+EndCmp
+
+BeginCmp
+TimeStamp = /54F1C460;
+Reference = P6;
+ValeurCmp = UART_TX;
+IdModule  = PIN_ARRAY_1;
+EndCmp
+
+BeginCmp
+TimeStamp = /54F1C486;
+Reference = P7;
+ValeurCmp = UART_VDD;
+IdModule  = PIN_ARRAY_1;
+EndCmp
+
+BeginCmp
+TimeStamp = /54F1C327;
+Reference = P8;
+ValeurCmp = VDD;
+IdModule  = PIN_ARRAY_1;
+EndCmp
+
+BeginCmp
+TimeStamp = /54F1C373;
+Reference = P9;
+ValeurCmp = GND;
+IdModule  = PIN_ARRAY_1;
+EndCmp
+
+BeginCmp
+TimeStamp = /54F1C00D;
+Reference = P10;
+ValeurCmp = LCD;
+IdModule  = PIN_ARRAY_3X1;
+EndCmp
+
+BeginCmp
+TimeStamp = /54F1C562;
+Reference = P11;
+ValeurCmp = X;
+IdModule  = PIN_ARRAY_1;
+EndCmp
+
+BeginCmp
+TimeStamp = /54F1C5B7;
+Reference = P12;
+ValeurCmp = SW;
+IdModule  = PIN_ARRAY_1;
+EndCmp
+
+EndListe
