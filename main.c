@@ -1,12 +1,7 @@
-//#include "stm8s.h"
-//#include "stm8s_gpio.h"
-
 #include "main.h"
 
 //HSI 2MHZ - default val(?)
 
-//static uint8_t *str1="Ok qwertyuiop\r\n";
-//static uint8_t *str2="asdfgh\r\n";
 
 uint8_t check_switch_timer;
 
@@ -34,21 +29,6 @@ static void delay(uint32_t t)
   while(t--);
 }
 
-/*
-void test_out()
-{
-    uint32_t clock;
-    uint8_t tmp;
-
-
-    clock=CLK_GetClockFreq();
-    printf("Clock freq: %d\r\n",clock);
-    tmp = (uint8_t)(CLK->CKDIVR & CLK_CKDIVR_HSIDIV);
-    tmp = (uint8_t)(tmp >> 3);
-    printf("HSIDIV: %d\r\n",tmp);
-
-}
-*/
 
 
 int main( void )
@@ -60,7 +40,6 @@ int main( void )
     GPIO_Config();
     UART_Config();
     ADC_Config();
-//    TIM4_Config();
 
     flags=0;
     temp_lvl=0;
@@ -71,8 +50,6 @@ int main( void )
 
     enableInterrupts();
 
-//HEATER_ON;
-//    test_out();
     UART_SendStr("OK!\r\n");
 
     while(1) {
@@ -81,23 +58,6 @@ int main( void )
 	//UART1_SendData8('!');
 //	printf_tiny("Ok\r\n");
 //	printf("%c\n\r", 'p');
-
-//	printf("Ok\r\n");
-//	UART_SendStr("Ok\r\n");
-/*
-	if (q)
-	    UART_SendStr(str1);
-	else 
-	    UART_SendStr(str2);
-    q=1-q;
-*/
-
-/*
-    if (get_flag(FLAG_SWITCH_PRESSED))
-	HEATER_ON;
-    else
-	HEATER_OFF;
-*/
 
     //pid processing and output debug msg
     if (get_flag(FLAG_END_ADC_CONV)) {
@@ -167,25 +127,3 @@ UART1->DR = '!';
 
 
 
-
-
-#ifdef USE_FULL_ASSERT
-
-/**
-  * @brief  Reports the name of the source file and the source line number
-  *   where the assert_param error has occurred.
-  * @param file: pointer to the source file name
-  * @param line: assert_param error line source number
-  * @retval None
-  */
-void assert_failed(uint8_t* file, uint32_t line)
-{ 
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-
-  /* Infinite loop */
-  while (1)
-  {
-  }
-}
-#endif

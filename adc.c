@@ -79,13 +79,7 @@ INTERRUPT_HANDLER(ADC1_IRQHandler, 22)
 
 	if (conv_result < temp_adc[temp_lvl])
 	    set_flag(FLAG_END_TEMP_MEASURE);
-//	else
-//	    ADC_StartConversion();
 
-//	sprintf(txbuf,"ADC: %d\r\n",(conv_result>>4));
-//	sprintf(txbuf,"ADC:%d, T:%d\r\n",conv_result,(uint16_t)(temp_lvl));
-//!	sprintf(txbuf,"%d,%d\r\n",conv_result,(uint16_t)(temp_lvl));
-//!	UART_SendStr(txbuf);	//send result to uart
 	set_flag(FLAG_END_ADC_CONV);
 
 //	EXTI->CR1 |= (uint8_t)(EXTI_SENSITIVITY_RISE_FALL);	//set EXTI PORTS-sens
