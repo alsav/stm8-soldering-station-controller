@@ -1,15 +1,15 @@
 #include "main.h"
 
 
-volatile uint8_t flags;
-volatile uint8_t temp_lvl;
+//volatile uint8_t flags;
+//volatile uint8_t temp_lvl;
 
 //volatile uint8_t check_switch_timer;
-volatile uint8_t heat_counter;		//for caluclated heat||idle cycles
+//volatile uint8_t heat_counter;		//for caluclated heat||idle cycles
 
 
-int8_t heat_cycles=30;		//pid regulated value
-
+//int8_t heat_cycles=30;		//pid regulated value
+/*
 uint16_t temp_adc[TEMP_LEVELS] = { \
     0,			\ //OFF
     200,		\ //200C
@@ -20,8 +20,30 @@ uint16_t temp_adc[TEMP_LEVELS] = { \
     450,		\ //450C
     500			\ //480C (MAX)
 };
+*//*
+uint16_t temp_adc[TEMP_LEVELS] = { \
+    0,			\ //OFF
+    180,		\ //200C
+    230,		\ //250C
+    280,		\ //300C
+    330,		\ //350C
+    380,		\ //400C
+    430,		\ //450C
+    500			\ //480C (MAX)
+};
+*/
+uint16_t temp_adc[TEMP_LEVELS] = { \
+    0,			\ //0 OFF
+    180,		\ //1 200C
+    220,		\ //2 250C
+    260,		\ //3 300C
+    300,		\ //4 350C
+    340,		\ //5 400C
+    390,		\ //6 450C
+    450			\ //7 480C (MAX)
+};
 
-extern uint8_t txbuf[UART_BUF_SIZE];	//for debug
+//extern uint8_t txbuf[UART_BUF_SIZE];	//for debug
 
 /*
 void switch_event_processing()
@@ -41,7 +63,7 @@ UART1->DR = '_';
 
 }
 */
-
+/*
 void zero_detection_event_processing()
 {
     if ( ZERO_DETECT_PORT->IDR & ZERO_DETECT_PIN ) {
@@ -67,3 +89,4 @@ void zero_detection_event_processing()
 
 
 }
+*/

@@ -6,7 +6,7 @@ volatile uint16_t conv_result;
 extern uint8_t txbuf[UART_BUF_SIZE];	//for debug
 
 extern volatile uint8_t flags;
-extern volatile uint8_t temp_lvl;
+//extern volatile uint8_t temp_lvl;
 
 extern uint16_t temp_adc[TEMP_LEVELS];
 
@@ -77,7 +77,7 @@ INTERRUPT_HANDLER(ADC1_IRQHandler, 22)
 
 	conv_result=conv_result>>4;
 
-	if (conv_result < temp_adc[temp_lvl])
+//?	if (conv_result < temp_adc[temp_lvl])
 	    set_flag(FLAG_END_TEMP_MEASURE);
 
 	set_flag(FLAG_END_ADC_CONV);
@@ -89,7 +89,7 @@ INTERRUPT_HANDLER(ADC1_IRQHandler, 22)
 }
 
 
-
+//timer interrupt
 INTERRUPT_HANDLER(TIM4_UPD_OVF_IRQHandler, 23)
 {
 

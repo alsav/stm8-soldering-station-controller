@@ -2,6 +2,10 @@
 
 extern volatile uint8_t flags;
 //extern uint8_t temp_lvl;
+//extern uint16_t phase_ticks;
+
+volatile uint8_t heat_counter;		//for caluclated heat||idle cycles
+int8_t heat_cycles=30;		//pid regulated value
 
 
 void GPIO_Config() {
@@ -67,7 +71,8 @@ INTERRUPT_HANDLER(EXTI_PORTD_IRQHandler, 6)
 {
 
 //switch-event processing
-    set_flag(FLAG_SWITCH_EVENT);
+//    set_flag(FLAG_SWITCH_EVENT);
+    set_flag(FLAG_ZERO_REACHED);
 /*
     if (check_switch_timer == 0) {
 	check_switch_timer=CHECK_SWITCH_PERIOD;
@@ -77,5 +82,28 @@ INTERRUPT_HANDLER(EXTI_PORTD_IRQHandler, 6)
 */
 
 //zero-detection event processing
-    zero_detection_event_processing();
+//    zero_detection_event_processing();
+    if ( ZERO_DETECT_PORT->IDR & ZERO_DETECT_PIN ) {
+        if ( get_flag(FLAG_END_TEMP_MEASURE) ) {
+	    reset_flag(FLAG_END_TEMP_MEASURE);
+	    if (heat_cycles) {
+		HEATER_ON;
+		set_flag(FLAG_HEATER_ENABLED);
+		heat_counter = heat_cycles;
+	    }
+	} else if (heat_counter == 0) {
+	    if (get_flag(FLAG_HEATER_ENABLED)) {
+		HEATER_OFF;
+		reset_flag(FLAG_HEATER_ENABLED);
+		heat_counter = HEAT_IDLE_CYCLES; 
+	    } 
+	} else {
+		heat_counter--;
+	}
+    } else if ( (ZERO_DETECT_PORT->IDR & ZERO_DETECT_PIN)==0 ) {
+	if ( (heat_counter == 0) && (!get_flag(FLAG_HEATER_ENABLED)) ) {
+	    ADC_StartConversion();
+	}
+    }
+
 }
