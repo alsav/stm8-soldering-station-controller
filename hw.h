@@ -1,3 +1,16 @@
+/*
+Copyright (C) 2015 Alexander Sadakov <al.sadakov_dog_gmail.com>
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+*/
 
 //
 //ZERO-DETECTION PIN - EXTI RISE/FALL
@@ -13,7 +26,6 @@
 //
 #define SWITCH_PORT GPIOC
 #define SWITCH_PIN GPIO_PIN_6
-//#define SWITCH_EXTI_RISE_FALL 0b00110000	//switch-port exti sensitivity (write to CR1)
 
 
 //
@@ -25,7 +37,6 @@
 
 #define LEDS_OFF LED_GPIO_PORT->ODR &= LED_GPIO_MASK;
 #define LEDS_SET(val) LED_GPIO_PORT->ODR &= LED_GPIO_MASK; LED_GPIO_PORT->ODR ^= (val<<3);
-
 
 
 //
@@ -45,10 +56,4 @@
 
 
 
-
-void GPIO_Config(void);
-
-extern INTERRUPT_HANDLER(EXTI_PORTA_IRQHandler, 3);
-extern INTERRUPT_HANDLER(EXTI_PORTB_IRQHandler, 4);
-extern INTERRUPT_HANDLER(EXTI_PORTC_IRQHandler, 5);
-extern INTERRUPT_HANDLER(EXTI_PORTD_IRQHandler, 6);
+void HW_Init(void);

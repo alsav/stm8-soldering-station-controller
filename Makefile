@@ -7,12 +7,13 @@ CFLAGS+=-I$(STM8LIBINC)
 STM8LIBDIR=../stm8_lib
 SDCCLIBSMALL=/usr/local/share/sdcc/lib/small
 
-STM8LIBINC=$(STM8LIBDIR)/inc
+#STM8LIBINC=$(STM8LIBDIR)/inc
+STM8LIBINC=./inc
 DEFINES=STM8S003
 SRC=main
 OUT_DIR=build
 
-SRCS= ministdlib.c gpio.c uart.c adc.c pid.c controller.c
+SRCS= ministdlib.c hw.c ctrl.c pid.c uart.c
 
 OBJS = $(SRCS:%.c=$(OUT_DIR)/%.rel)
 
