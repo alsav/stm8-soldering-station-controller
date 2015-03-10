@@ -1,11 +1,9 @@
 #include "main.h"
 
 extern volatile uint8_t flags;
-//extern uint8_t temp_lvl;
-//extern uint16_t phase_ticks;
 
 volatile uint8_t heat_counter;		//for caluclated heat||idle cycles
-int8_t heat_cycles=30;		//pid regulated value
+int8_t heat_cycles=30;			//pid regulated value
 
 
 void GPIO_Config() {
@@ -19,14 +17,9 @@ void GPIO_Config() {
     //switch pin config
     SWITCH_PORT->DDR &= ~SWITCH_PIN;		//in
     SWITCH_PORT->CR1 |= SWITCH_PIN;		//enable pull-up
-//    SWITCH_PORT->CR2 |= SWITCH_PIN;		//with_interrupt
-
 
     //exti config (zero detect && switch)
     EXTI->CR1 &= (uint8_t)(~EXTI_CR1_PAIS);		//clear EXTI PORTA-sens interrupts
-//    EXTI->CR1 |= (uint8_t)(EXTI_SENSITIVITY_RISE_FALL);	//set EXTI PORTS-sens
-//    EXTI->CR1 |= (uint8_t)(EXTI_SENSITIVITY_RISE_ONLY);	//set EXTI PORTS-sens
-//    EXTI->CR1 |= (uint8_t)(ZERO_DETECT_EXTI_RISE_FALL | SWITCH_EXTI_RISE_FALL);	//set EXTI PORT-sense
     EXTI->CR1 |= (uint8_t)(ZERO_DETECT_EXTI_RISE_FALL);	//set EXTI PORT-sense
 
 
@@ -70,19 +63,9 @@ INTERRUPT_HANDLER(EXTI_PORTC_IRQHandler, 5)
 INTERRUPT_HANDLER(EXTI_PORTD_IRQHandler, 6)
 {
 
-//switch-event processing
-//    set_flag(FLAG_SWITCH_EVENT);
-    set_flag(FLAG_ZERO_REACHED);
-/*
-    if (check_switch_timer == 0) {
-	check_switch_timer=CHECK_SWITCH_PERIOD;
-	switch_event_processing();
-    }
-    check_switch_timer--;
-*/
+    set_flag(FLAG_ZERO_REACHED);	// for main-loop processing
 
-//zero-detection event processing
-//    zero_detection_event_processing();
+    //zero-detection event processing
     if ( ZERO_DETECT_PORT->IDR & ZERO_DETECT_PIN ) {
         if ( get_flag(FLAG_END_TEMP_MEASURE) ) {
 	    reset_flag(FLAG_END_TEMP_MEASURE);

@@ -4,9 +4,9 @@ typedef struct {
     int8_t dstate;	//last position input
     int8_t istate;	//integrator state
 
-    int8_t imax, imin;
+    int8_t imax, imin;	//integratir limits
 
-    int8_t vmax,vmin;	//max,min output values
+    int8_t vmax,vmin;	//result limits
 
     int8_t pgain, igain, dgain;
 } pid_struct;

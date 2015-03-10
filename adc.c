@@ -6,20 +6,15 @@ volatile uint16_t conv_result;
 extern uint8_t txbuf[UART_BUF_SIZE];	//for debug
 
 extern volatile uint8_t flags;
-//extern volatile uint8_t temp_lvl;
 
 extern uint16_t temp_adc[TEMP_LEVELS];
 
 
-// div8 && 64-reload
-// div16
 void TIM4_Config() {
     TIM4->PSCR |= TIM4_PRESCALER_8;	//set timer prescaler
-//    TIM4->ARR = 0xf0;			//set timer reload value	23ms
-//    TIM4->ARR = 0xb0;			//set timer reload value	19ms
-    TIM4->ARR = 0x90;			//set timer reload value	17ms
+//    TIM4->ARR = 0xb0;			//set timer reload value (19ms for all adc conversions)
+    TIM4->ARR = 0x90;			//set timer reload value (17ms for all adc conversions)
     TIM4->SR1 &= ~TIM4_SR1_UIF;		//clear update interrupt flag
-//    TIM4->IER |= TIM4_IER_UIE;		//enable interrupt
     TIM4->IER |= TIM4_IT_UPDATE;		//enable interrupt
 }
 
@@ -48,7 +43,6 @@ void ADC_StartConversion()
 	conv_result=0;
 	conv_num=16;
 
-//	STATUS_LED_ON;
 	ADC1->CR1 |= ADC1_CR1_ADON;	//start adc conversion
 }
 
@@ -62,24 +56,20 @@ void ADC_StartConversion()
 //end adc conversion
 INTERRUPT_HANDLER(ADC1_IRQHandler, 22)
 {
-    ADC1->CSR &= ~ADC1_CSR_EOC;		//clear end-of-conversion flag
-//    conv_result += ADC1->DRL;		//add conversion to result
+    ADC1->CSR &= ~ADC1_CSR_EOC;			//clear end-of-conversion flag
+
     conv_result += (ADC1->DRH << 8);		//add conversion to result
     conv_result += ADC1->DRL;
 
-    if (conv_num) {			//if not all conversions, wait tim4 and start adc again
+    if (conv_num) {				//if not all adc conversions: wait tim4 and start adc again
 	conv_num--;
-	TIM4->CR1 |= TIM4_CR1_CEN;	//enable tim4
-//TIM4->IER |= TIM4_IER_UIE;		//enable interrupt
-//ADC1->CSR |= ADC1_CSR_EOCIE;	//enable end-of-conversion interrupt
+	TIM4->CR1 |= TIM4_CR1_CEN;		//enable tim4
 
-    } else {				//all conversions finished
+    } else {					//all conversions finished
 
 	conv_result=conv_result>>4;
 
-//?	if (conv_result < temp_adc[temp_lvl])
-	    set_flag(FLAG_END_TEMP_MEASURE);
-
+	set_flag(FLAG_END_TEMP_MEASURE);
 	set_flag(FLAG_END_ADC_CONV);
 
 //	EXTI->CR1 |= (uint8_t)(EXTI_SENSITIVITY_RISE_FALL);	//set EXTI PORTS-sens
@@ -95,7 +85,6 @@ INTERRUPT_HANDLER(TIM4_UPD_OVF_IRQHandler, 23)
 
     TIM4->SR1 &= ~TIM4_SR1_UIF;	//clear update interrupt flag
     TIM4->CR1 &= ~TIM4_CR1_CEN;	//disable tim4
-//if (conv_num)
     ADC1->CR1 |= ADC1_CR1_ADON;	//start next adc conversion
 
 }

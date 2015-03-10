@@ -9,11 +9,11 @@
 
 
 //
-//SWITCH PIN - EXTI RISE/FALL
+//SWITCH PIN - INPUT
 //
 #define SWITCH_PORT GPIOC
 #define SWITCH_PIN GPIO_PIN_6
-#define SWITCH_EXTI_RISE_FALL 0b00110000	//switch-port exti sensitivity (write to CR1)
+//#define SWITCH_EXTI_RISE_FALL 0b00110000	//switch-port exti sensitivity (write to CR1)
 
 
 //
@@ -45,13 +45,6 @@
 
 
 
-
-//#define STATUS_LED_PORT GPIOD
-//#define STATUS_LED_PIN GPIO_PIN_3
-
-//#define STATUS_LED_ON STATUS_LED_PORT->ODR |= STATUS_LED_PIN
-//#define STATUS_LED_OFF STATUS_LED_PORT->ODR &= ~STATUS_LED_PIN
-//#define STATUS_LED_REV STATUS_LED_PORT->ODR ^= STATUS_LED_PIN
 
 void GPIO_Config(void);
 

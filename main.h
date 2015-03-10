@@ -5,7 +5,6 @@
 //#include <stdint.h>
 
 
-//#include "ministdlib.h"
 #include "uart.h"
 #include "gpio.h"
 #include "adc.h"
