@@ -75,7 +75,7 @@ void mainLoop()
 	    }
 
 	    if ( get_flag(FLAG_BLINK_ON) && ((get_flag(FLAG_PREHEAT))==0) ) {	//BLINK_OFF if temp stabilized
-		if ( (temp_error>0) && (temp_error<5) ) {
+		if ( (temp_error>-5) && (temp_error<5) ) {
 		    LEDS_SET(temp_lvl);
 		    reset_flag(FLAG_BLINK_ON);
 		}
@@ -118,7 +118,9 @@ void mainLoop()
 	    //long switch-pressed: pwr-off
 	    if (get_flag(FLAG_SWITCH_PRESSED)) {
 		switch_pressed_timer++;
-		if ( switch_pressed_timer == 0 ) {
+//		if ( switch_pressed_timer == 0 ) {
+		if ( switch_pressed_timer == 0x90 ) {
+		    switch_pressed_timer=0;
 		    temp_lvl=0;
 		    temp_lvl_real=0;
 		    LEDS_SET(0);
